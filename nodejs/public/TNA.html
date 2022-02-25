@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>TNA</title>
+    <script type = "text/javascript" src = "/socket.io/socket.io.js"></script>
+    <sciprt src = "http://code.jquery.com/jquery-3.3.1.min.js"></sciprt>"
+    <script type = "text/javascript">
+        var socket = null;
+        var timer = null;
+
+        $(document).ready(function () {
+            socket = io.connect();
+            socket.on("socket_evt_mqtt", function(data) {
+                data = JSON.parse(data);
+                $(".mqttlist").html(
+                    "<li> 이름 : " + data.name + " " + data.tna + "시간 : " + data.time +"</li>"
+                );
+            });
+            if(timer == null) {
+                timer = window.setInterval("timer1()", 1000);
+            }
+        });
+        function timer1() {
+            socket.emit("socket_evt_mqtt", JSON.stringfy({}));
+            console.log("------------------");
+        }
+    </script>
+</head>
+<body>
+    <h2>SmartIot Lab 출-퇴근 서비스</h2>
+    <div id = "msg">
+        <div id="mqtt_logs">
+            <ul class ="mqttlist"></ul>
+        </div>
+    </div>
+</body>
+</html>
