@@ -1,38 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <title>TNA</title>
-    <script type = "text/javascript" src = "/socket.io/socket.io.js"></script>
-    <sciprt src = "http://code.jquery.com/jquery-3.3.1.min.js"></sciprt>"
-    <script type = "text/javascript">
+    <meta charset="utf-8" />
+    <title>SmartIotLab 출결확인 서비스</title>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
         var socket = null;
         var timer = null;
 
         $(document).ready(function () {
             socket = io.connect();
-            socket.on("socket_evt_mqtt", function(data) {
+
+            socket.on("socket_evt_mqtt", function (data) {
                 data = JSON.parse(data);
-                $(".mqttlist").html(
-                    "<li> 이름 : " + data.name + " " + data.tna + "시간 : " + data.time +"</li>"
-                );
+                $("#TNA>tbody").eq(0).empty();
+                $("#TNA>tbody").eq(1).empty();
+                $("#TNA>tbody").eq(2).empty();
+                $("#TNA>tbody").eq(3).empty();
+                $("#TNA>tbody").eq(4).empty();
+                $("#TNA>tbody").eq(5).empty();
+                $("#TNA>tbody").eq(6).empty();
+                $("#TNA>tbody").eq(7).empty();
+                $("#TNA>tbody").eq(8).empty();
+                $("#TNA>tbody").eq(9).empty();
+                $("#TNA>tbody").eq(10).empty();
+                $("#TNA>tbody").eq(11).empty();
+                $("#TNA>tbody").eq(12).empty();
+                $("#TNA>tbody").eq(13).empty();
+                $("#TNA>tbody").eq(14).empty();
+                $("#TNA>tbody").eq(15).empty();
+                $("#TNA>tbody").eq(16).empty();
+                $("#TNA>tbody").append(
+                    "<tr><td> 날짜 </td><td> 이름 </td><td> 시간 </td><td> 출퇴근 </td></tr>" +
+                    "<tr><td>" + data[0].date + "</td><td>" + data[0].name + "</td><td>" + data[0].time + "</td><td>" + data[0].tna + "</td></tr>" + 
+                    "<tr><td>" + data[1].date + "</td><td>" + data[1].name + "</td><td>" + data[1].time + "</td><td>" + data[1].tna + "</td></tr>" + 
+                    "<tr><td>" + data[2].date + "</td><td>" + data[2].name + "</td><td>" + data[2].time + "</td><td>" + data[2].tna + "</td></tr>" + 
+                    "<tr><td>" + data[3].date + "</td><td>" + data[3].name + "</td><td>" + data[3].time + "</td><td>" + data[3].tna + "</td></tr>" + 
+                    "<tr><td>" + data[4].date + "</td><td>" + data[4].name + "</td><td>" + data[4].time + "</td><td>" + data[4].tna + "</td></tr>" + 
+                    "<tr><td>" + data[5].date + "</td><td>" + data[5].name + "</td><td>" + data[5].time + "</td><td>" + data[5].tna + "</td></tr>" + 
+                    "<tr><td>" + data[6].date + "</td><td>" + data[6].name + "</td><td>" + data[6].time + "</td><td>" + data[6].tna + "</td></tr>" + 
+                    "<tr><td>" + data[7].date + "</td><td>" + data[7].name + "</td><td>" + data[7].time + "</td><td>" + data[7].tna + "</td></tr>" + 
+                    "<tr><td>" + data[8].date + "</td><td>" + data[8].name + "</td><td>" + data[8].time + "</td><td>" + data[8].tna + "</td></tr>" + 
+                    "<tr><td>" + data[9].date + "</td><td>" + data[9].name + "</td><td>" + data[9].time + "</td><td>" + data[9].tna + "</td></tr>" + 
+                    "<tr><td>" + data[10].date + "</td><td>" + data[10].name + "</td><td>" + data[10].time + "</td><td>" + data[10].tna + "</td></tr>" + 
+                    "<tr><td>" + data[11].date + "</td><td>" + data[11].name + "</td><td>" + data[11].time + "</td><td>" + data[11].tna + "</td></tr>" + 
+                    "<tr><td>" + data[12].date + "</td><td>" + data[12].name + "</td><td>" + data[12].time + "</td><td>" + data[12].tna + "</td></tr>" + 
+                    "<tr><td>" + data[13].date + "</td><td>" + data[13].name + "</td><td>" + data[13].time + "</td><td>" + data[13].tna + "</td></tr>" + 
+                    "<tr><td>" + data[14].date + "</td><td>" + data[14].name + "</td><td>" + data[14].time + "</td><td>" + data[14].tna + "</td></tr>" + 
+                    "<tr><td>" + data[15].date + "</td><td>" + data[15].name + "</td><td>" + data[15].time + "</td><td>" + data[15].tna + "</td></tr>"
+                    )
             });
-            if(timer == null) {
+            if (timer == null) {
                 timer = window.setInterval("timer1()", 1000);
             }
         });
         function timer1() {
-            socket.emit("socket_evt_mqtt", JSON.stringfy({}));
-            console.log("------------------");
+            socket.emit("socket_evt_mqtt", JSON.stringify({}));
         }
     </script>
+    <style>
+        h2{text-align : center};
+        table, th, td {
+            border: 1px solid #bcbcbc;
+            text-align : center;
+        }
+        table {
+            width : 100%;
+            border: 1px solid #444444;
+            border-collapse : collapse;
+            margin-left :auto;
+            margin-right :auto;
+        }
+        th, td {
+            border: 1px solid #444444;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <h2>SmartIot Lab 출-퇴근 서비스</h2>
-    <div id = "msg">
-        <div id="mqtt_logs">
-            <ul class ="mqttlist"></ul>
-        </div>
-    </div>
+    
+    <b>조회할 항목을 입력 후 확인을 누르세요</b><p>
+    <form id = "search" method = "POST" action = "/search">
+    날짜&nbsp; <input type = "text" name = "date" size = "20" placeholder ="YYYY-MM-DD"/><br>
+    이름&nbsp; <input type = "text" name = "name"size = "20" placeholder = "이름입력"/><br>
+    <input type = "submit" value = "확 인" >
+    </form> 
+
+    <table id = "TNA">
+        <tbody>
+        </tbody>
+    </table>
 </body>
 </html>
